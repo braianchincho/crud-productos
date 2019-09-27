@@ -2,7 +2,8 @@ import {
     AGREGAR_PRODUCTO,
     AGREGAR_PRODUCTO_ERROR,
     AGREGAR_PRODUCTO_EXITO
-} from '../types'
+} from '../types';
+
 
 const initalState = {
     productos: [],
@@ -28,7 +29,7 @@ export default function ProductosReducer (state = initalState, action) {
         case AGREGAR_PRODUCTO_ERROR:
             return {
                 ...state,
-                error: true
+                error: action.payload
             }
         default: return state;
     }
