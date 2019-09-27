@@ -1,0 +1,14 @@
+{
+    "libros": [
+        {
+            "id":1,
+            "nombre":"Cien años de soledad",
+            "precio": 243.12
+        },
+        {
+            "id":1,
+            "nombre":"relato de un naufrago",
+            "precio": 143.55
+        }
+    ]
+}
