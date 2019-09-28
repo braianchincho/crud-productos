@@ -6,11 +6,6 @@
       "precio": 243.12
     },
     {
-      "id": 2,
-      "nombre": "relato de un naufrago",
-      "precio": 143.55
-    },
-    {
       "nombre": "El diablo en la botella",
       "precio": "423",
       "id": 3

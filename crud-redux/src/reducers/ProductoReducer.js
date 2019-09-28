@@ -4,7 +4,10 @@ import {
     AGREGAR_PRODUCTO_EXITO,
     COMENZAR_DESCARGA_PRODUCTOS,
     DESCARGA_PRODUCTOS_ERROR,
-    DESCARGA_PRODUCTOS_EXITOSA
+    DESCARGA_PRODUCTOS_EXITOSA,
+    PRODUCTO_ELIMINAR,
+    PRODUCTO_ELIMINAR_ERROR,
+    PRODUCTO_ELIMINAR_EXITO
 } from '../types';
 
 
@@ -53,7 +56,25 @@ export default function ProductosReducer (state = initalState, action) {
                             productos: [],
                             error: true
                         }
-        
+                case PRODUCTO_ELIMINAR: 
+                    return {
+                        ...state,
+                        error: null
+                    }
+                case PRODUCTO_ELIMINAR_EXITO:
+                    return {
+                        ...state,
+                        error: null,
+                        productos: state.productos.filter(
+                            producto => (producto.id !== 
+                                action.payload)
+                        )
+                    }
+                case PRODUCTO_ELIMINAR_ERROR: 
+                    return {
+                        ...state,
+                        error: true
+                    }
         default: return state;
     }
 }
