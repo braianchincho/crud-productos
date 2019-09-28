@@ -1,7 +1,10 @@
 import React, {useState} from 'react';
 import { crearNuevoProductoAction } from '../actions/ProductoActions';
-import { useDispatch } from 'react-redux';
-const NuevoProducto = () => {
+import { validarFomularioAction, validacionExito , validacionError }
+  from '../actions/ValidacionActions';
+import { useDispatch, useSelector } from 'react-redux';
+import ErrorForm from './ErrorFormulario';
+const NuevoProducto = ({history}) => {
     // state
     const [ nombre, setNombre ] = useState('');
     const [ precio, setPrecio ] = useState('');
@@ -11,17 +14,34 @@ const NuevoProducto = () => {
     const agregarProducto = (producto) => dispatch(
         crearNuevoProductoAction(producto)
     );
+    const validarFormulario = () => dispatch( 
+        validarFomularioAction() 
+    );
+    const errorValidacion = () => dispatch( 
+        validacionError() 
+    );
+    const exitoValidacion = () => dispatch( 
+        validacionExito() 
+    );
+    // obtener el state de redux
+    const error = useSelector((state) => state.error.error);
 
     const submitNuevoProducto = e => {
         e.preventDefault();
 
         // validar formulario
-
+        validarFormulario();
         if(nombre.trim() === '' || precio.trim() === '' ) {
+            errorValidacion();
             return;
         }
-
-        agregarProducto({nombre,precio})
+        exitoValidacion();
+        // agregar libro
+        agregarProducto({nombre,precio});
+        
+        // redireccionar
+        history.push('/');
+        
     }
 
     return ( 
@@ -51,11 +71,14 @@ const NuevoProducto = () => {
                                     onChange={ e => setPrecio(e.target.value)}
                                 />
                             </div>
-
+                            <ErrorForm 
+                              error={error} 
+                              mensaje="todos los campos son obligatorios"
+                              />
                             <button type="submit" 
                             className="btn btn-primary font-weight-bold text-uppercase d-block w-100">Agregar</button>
                         </form>
-        
+                        
                     </div>
                 </div>
             </div>
