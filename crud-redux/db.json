@@ -3,12 +3,17 @@
     {
       "id": 1,
       "nombre": "Cien años de soledad",
-      "precio": 243.12
+      "precio": "243.12"
     },
     {
       "nombre": "El diablo en la botella",
       "precio": "423",
       "id": 3
+    },
+    {
+      "nombre": "El pricipito",
+      "precio": "427",
+      "id": 4
     }
   ]
 }

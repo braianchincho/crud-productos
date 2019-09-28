@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { borrarProductoAction } from '../actions/ProductoActions';
+import { borrarProductoAction, obtenerProductoEditarAction } from '../actions/ProductoActions';
 import Swal from 'sweetalert2';
 
 const TableRowProducto = ({producto}) => {
@@ -9,6 +9,9 @@ const TableRowProducto = ({producto}) => {
     const dispatch = useDispatch();
     const borrarProducto = (id) => dispatch(
         borrarProductoAction(id)
+    );
+    const editarProducto = id => dispatch(
+        obtenerProductoEditarAction(id)
     );
     const confirmarEliminarProducto = id => {
         Swal.fire({
@@ -37,7 +40,7 @@ const TableRowProducto = ({producto}) => {
             <td>{producto.precio}</td>
             <td className="acciones">
                 <Link className="btn btn-primary"
-                 to={`/productod/editar/${producto.id}`}>
+                 to={`/productos/editar/${producto.id}`}>
                      Editar
                 </Link>
                 <button

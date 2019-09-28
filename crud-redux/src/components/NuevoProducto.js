@@ -1,19 +1,41 @@
-import React, {useState} from 'react';
-import { crearNuevoProductoAction } from '../actions/ProductoActions';
+import React, { useState, useEffect , useRef } from 'react';
+import { crearNuevoProductoAction, editarProductoAction,
+    obtenerProductoEditarAction , nuevoProducto} from '../actions/ProductoActions';
 import { validarFomularioAction, validacionExito , validacionError }
   from '../actions/ValidacionActions';
 import { useDispatch, useSelector } from 'react-redux';
 import ErrorForm from './ErrorFormulario';
-const NuevoProducto = ({history}) => {
+const NuevoProducto = ({history,match}) => {
     // state
-    const [ nombre, setNombre ] = useState('');
-    const [ precio, setPrecio ] = useState('');
 
+    const idEditarProducto = match.params.id
+
+    const nombreRef = useRef('');
+    const precioRef = useRef('');
+   
     // redux
     const dispatch = useDispatch();
+
+    
+
+    useEffect( () => {
+        if(idEditarProducto) {
+            dispatch(obtenerProductoEditarAction(idEditarProducto));
+        } else {
+            dispatch(nuevoProducto());
+        }
+        
+    },[dispatch,idEditarProducto]);
+ 
+    
+
     const agregarProducto = (producto) => dispatch(
         crearNuevoProductoAction(producto)
     );
+    const editarProducto = (producto) => dispatch(
+        editarProductoAction(producto)
+    );
+
     const validarFormulario = () => dispatch( 
         validarFomularioAction() 
     );
@@ -25,19 +47,29 @@ const NuevoProducto = ({history}) => {
     );
     // obtener el state de redux
     const error = useSelector((state) => state.error.error);
+    const producto = useSelector((state) => {
+        const prod = state.productos.productoEditar;
+        return prod || {nombre: '' , precio: ''} ;
+    } );
 
     const submitNuevoProducto = e => {
         e.preventDefault();
-
         // validar formulario
+        producto.nombre = nombreRef.current.value;
+        producto.precio = precioRef.current.value;
         validarFormulario();
-        if(nombre.trim() === '' || precio.trim() === '' ) {
+        if(producto.nombre.trim() === '' || producto.precio.trim() === '' ) {
             errorValidacion();
             return;
         }
         exitoValidacion();
         // agregar libro
-        agregarProducto({nombre,precio});
+        if(idEditarProducto) {
+            editarProducto(producto);
+        } else {
+            agregarProducto(producto);
+        }
+        
         
         // redireccionar
         history.push('/');
@@ -57,8 +89,8 @@ const NuevoProducto = ({history}) => {
                                     type="text" 
                                     className="form-control" 
                                     placeholder="Nombre Libro" 
-                                    value={nombre}
-                                    onChange={ e => setNombre(e.target.value)}
+                                    defaultValue={producto.nombre}
+                                    ref={nombreRef}
                                 />
                             </div>
                             <div className="form-group">
@@ -67,8 +99,8 @@ const NuevoProducto = ({history}) => {
                                     type="text" 
                                     className="form-control" 
                                     placeholder="Precio Libro"
-                                    value={precio} 
-                                    onChange={ e => setPrecio(e.target.value)}
+                                    defaultValue={producto.precio}
+                                    ref={precioRef}
                                 />
                             </div>
                             <ErrorForm 

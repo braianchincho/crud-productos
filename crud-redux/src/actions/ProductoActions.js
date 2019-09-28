@@ -7,7 +7,10 @@ import {
     DESCARGA_PRODUCTOS_EXITOSA,
     PRODUCTO_ELIMINAR,
     PRODUCTO_ELIMINAR_ERROR,
-    PRODUCTO_ELIMINAR_EXITO
+    PRODUCTO_ELIMINAR_EXITO,
+    OBTENER_PRODUCTO_EDITAR,
+    PRODUCTO_EDITAR_ERROR,
+    PRODUCTO_EDITAR_EXITO
 } from '../types';
 
 import clienteAxios from '../config/axios';
@@ -92,3 +95,36 @@ export const eliminarProductoError = (id) => ({
     payload: id
 });
 
+// Obtener el producto
+
+export function obtenerProductoEditarAction(id) {
+    return(dispatch) => {
+        
+        clienteAxios.get(`/libros/${id}`).then(
+            res => (dispatch(obtenerProductoEditar(res.data)) )
+        );
+        // obtener producto
+    }
+}
+
+export const obtenerProductoEditar = producto => ({
+    type: OBTENER_PRODUCTO_EDITAR,
+    payload: producto
+});
+
+export function editarProductoAction(producto) {
+    return (dispatch) => {
+        clienteAxios.put(`/libros/${producto.id}`,producto).then(
+            res => {
+                dispatch(editarProductoAction(producto))
+            }
+        ).catch(err => {
+
+        })
+    }
+}
+
+export const editarProductoExito = producto => ({
+    type: PRODUCTO_EDITAR_EXITO,
+    payload: producto
+})
