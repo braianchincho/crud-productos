@@ -6,29 +6,14 @@
       "precio": 243.12
     },
     {
-      "id": 1,
+      "id": 2,
       "nombre": "relato de un naufrago",
       "precio": 143.55
     },
     {
-      "nombre": "El diablo en la botelle",
-      "precio": "233",
-      "id": 2
-    },
-    {
-      "nombre": "jkhjbj",
-      "precio": "bhbkh",
+      "nombre": "El diablo en la botella",
+      "precio": "423",
       "id": 3
-    },
-    {
-      "nombre": "La odisea",
-      "precio": "1234",
-      "id": 4
-    },
-    {
-      "nombre": "Batman",
-      "precio": "1232",
-      "id": 5
     }
   ]
 }
